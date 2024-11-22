@@ -1,7 +1,6 @@
 import { Connection, connections, Model, Schema } from 'mongoose';
-import { User } from '../types/user.type';
+import { User } from '../database/types/user.type';
 import { genSalt, hash } from 'bcrypt';
-"use strict";
 
 const UserSchema = new Schema<User, User>(
     {

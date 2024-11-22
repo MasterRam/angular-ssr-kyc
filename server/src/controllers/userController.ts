@@ -1,32 +1,29 @@
-import { User } from "db/types/user.type";
-import { UserSchemaModel } from "../../db/models/user.model";
-import { Controller, Get, Post, Request, Res } from '@decorators/express';
+import { User } from "src/database/types/user.type";
+import { UserSchemaModel } from "../database/user.model";
 import { Response, Request as Req } from "express";
 import { genSalt, hash } from "bcrypt";
-@Controller("/api/users")
-export class UserController {
-    constructor() {
-
-    }
+import { Route, Get, Post, Request, Res, Controller, TsoaResponse } from 'tsoa';
+@Route("api/users")
+export class UserController extends Controller {
 
     /**
      * Method to get all Users
      * @returns @type {User}
      */
-    @Get("/")
-    async get() {
+    @Get()
+    public async get() {
         var dd = await UserSchemaModel.find({}).lean();
         return dd;
     }
 
-    @Post("/asdoctor")
-    async doctor() {
+    @Post("asdoctor")
+    public async doctor() {
         var dd = await UserSchemaModel.find({}).lean();
         return dd;
     }
 
-    @Post("/aspatient")
-    async patient(@Request() req: Req, @Res() res: Response) {
+    @Post("aspatient")
+    public async patient(@Request() req: Req) {
         try {
             const reqBody: any = req.body || {};
             var user = {} as User;
@@ -42,7 +39,7 @@ export class UserController {
             return userModel;
         } catch (error) {
             console.log("error", error);
-            res.sendStatus(500);
         }
+        return false;
     }
 }
